@@ -8,6 +8,7 @@ CREATE SCHEMA IF NOT EXISTS raw;
 CREATE TABLE IF NOT EXISTS raw.airports (
     id SERIAL PRIMARY KEY,
     name TEXT,
+    city TEXT,
     country TEXT,
     iata TEXT UNIQUE,
     icao TEXT UNIQUE,
@@ -18,34 +19,40 @@ CREATE TABLE IF NOT EXISTS raw.airports (
 -- Raw flights table
 CREATE TABLE IF NOT EXISTS raw.flights_raw (
     id SERIAL PRIMARY KEY,
-    flight_number TEXT,
+    flight_number TEXT NOT NULL,
+    flight_date DATE NOT NULL,
     icao24 TEXT,
-    departure_airport TEXT,
-    arrival_airport TEXT,
-    scheduled_time_utc TIMESTAMP,
-    actual_time_utc TIMESTAMP,
+    est_departure_iata TEXT,
+    est_arrival_iata TEXT,
+    scheduled_time TIMESTAMP,
+    estimated_time TIMESTAMP,
+    actual_time TIMESTAMP,
+    airline TEXT,
+    aircraft_iata TEXT,
+    airline_icao TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (flight_number, scheduled_time_utc)
+    source_timestamp TIMESTAMP,
+    UNIQUE(flight_number, flight_date)
 );
 
--- Raw aircrafts table
-CREATE TABLE IF NOT EXISTS raw.aircrafts (
-    icao24 TEXT PRIMARY KEY,
-    model TEXT,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
--- Raw weather data table
+-- Raw weather data table (1:1 match with weather source)
 CREATE TABLE IF NOT EXISTS raw.weather_raw (
     id SERIAL PRIMARY KEY,
-    flight_number TEXT,
-    timestamp TIMESTAMP,
+    timestamp TIMESTAMP NOT NULL,
     temperature DOUBLE PRECISION,
     wind_speed DOUBLE PRECISION,
     precipitation DOUBLE PRECISION,
-    cloudcover DOUBLE PRECISION,
-    lat DOUBLE PRECISION,
-    lon DOUBLE PRECISION,
+    lat DOUBLE PRECISION NOT NULL,
+    lon DOUBLE PRECISION NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (flight_number, timestamp)
+    source TEXT DEFAULT 'open-meteo',
+    UNIQUE (timestamp, lat, lon)
 );
+
+
+CREATE SCHEMA IF NOT EXISTS stage;
+
+CREATE SCHEMA IF NOT EXISTS enriched;
+
+

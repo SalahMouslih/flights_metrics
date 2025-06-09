@@ -1,9 +1,13 @@
+from __future__ import annotations
+
 import os
+
 from pyaml_env import parse_config
 
+
 def load_config() -> dict:
-    env = os.getenv("DAGSTER_ENV", "local")
-    config_path = os.path.join(os.path.dirname(__file__), "config.yaml")
+    env = os.getenv('DAGSTER_ENV', 'local')
+    config_path = os.path.join(os.path.dirname(__file__), 'config.yaml')
 
     full_config = parse_config(config_path)
 
