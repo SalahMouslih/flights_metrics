@@ -1,0 +1,28 @@
+local:
+  postgres:
+    host: ${POSTGRES_HOST}
+    port: ${POSTGRES_PORT}
+    dbname: ${POSTGRES_DB}
+    user:  ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  aviation_edge:
+    endpoint: "https://aviation-edge.com/v2/public/flightsHistory"
+    api_key: ${AVIATION_EDGE_API_KEY}
+    airports: ["CDG", "ORY", "BVA"]
+    days_back: 30
+    limit: 50
+    rate_limit_delay: 0.3  # Added for rate-limiting
+
+  opensky:
+    endpoint: "https://opensky-network.org/api/metadata/aircraft/icao24/"
+
+  weather:
+    endpoint: "https://api.open-meteo.com/v1/forecast"
+    days_back: 31
+    hourly_params: ["temperature_2m", "windspeed_10m", "precipitation"]  # Flattened for direct use
+    ttl_cache_seconds: 3600
+    retry_limit: 5
+    backoff_factor: 0.2
+    rate_limit_delay: 0.2 
+    cache_dir: "~/.cache/openmeteo"
