@@ -191,7 +191,7 @@ class ApiClient:
                 "precipitation": data["hourly"]["precipitation"][i],
                 "lat": lat,
                 "lon": lon,
-                "created_at": datetime.now (),
+                "created_at": datetime.now(),
                 "source_timestamp": hour.isoformat(),
             }
             for i, hour in enumerate(times)
