@@ -6,7 +6,6 @@ from dagster import get_dagster_logger
 from dagster import MetadataValue
 from dagster import Output
 
-from flights_pipeline.assets.raw import airports_raw
 from flights_pipeline.assets.raw import aviation_edge_raw
 from flights_pipeline.assets.raw import weather_raw_init
 from flights_pipeline.resources.postgres import PostgresResource
