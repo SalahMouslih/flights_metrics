@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Environment files
+.env
+.env.*
+
+# Docker
+*.log
+docker-compose.override.yml
+docker-compose.*.yml
+
+# Local volumes and storage
+volumes/
+tmp/
+io_manager_storage/
+.pgadmin/
+pgadmin_data/
+db/
+*.sqlite3
+
+# VSCode
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Python virtual environments
+venv/
+.venv/
+
+# Logs
+*.log
+
+# System files
+Thumbs.db
+
+# DAGSTER
+dagster.yaml
+dagster_instance/
+dagster_home/
+dagster_logs/
+
+# Metabase
+metabase.db/
