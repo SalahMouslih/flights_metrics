@@ -1,0 +1,124 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: local_postgres
+    restart: always
+    env_file:
+      - pg.env
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    networks:
+      - dockernetwork
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dag_user -d flights_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: flights_pgadmin
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8080:80"
+    networks:
+      - dockernetwork
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    restart: always
+    ports:
+      - "4000:3000"
+    networks:
+      - dockernetwork
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+
+  docker_user_code:
+    build:
+      context: .
+      dockerfile: ./Dockerfile_user_code
+    container_name: docker_user_code
+    image: docker_user_code_image
+    restart: always
+    env_file:
+    - .env
+    networks:
+      - dockernetwork 
+  # This service runs dagster-webserver, which loads your user code from the user code container.
+  # Since our instance uses the QueuedRunCoordinator, any runs submitted from the webserver will be put on
+  # a queue and later dequeued and launched by dagster-daemon.
+  docker_webserver:
+    build:
+      context: .
+      dockerfile: ./Dockerfile_dagster
+    entrypoint:
+      - dagster-webserver
+      - -h
+      - '0.0.0.0'
+      - -p
+      - '3000'
+      - -w
+      - workspace.yaml
+    container_name: docker_webserver
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    volumes: # Make docker client accessible so we can terminate containers from the webserver
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/io_manager_storage:/tmp/io_manager_storage
+    networks:
+      - dockernetwork
+    depends_on:
+      postgres:
+        condition: service_healthy
+      docker_user_code:
+        condition: service_started
+
+  # This service runs the dagster-daemon process, which is responsible for taking runs
+  # off of the queue and launching them, as well as creating runs from schedules or sensors.
+  docker_daemon:
+    build:
+      context: .
+      dockerfile: ./Dockerfile_dagster
+    entrypoint:
+      - dagster-daemon
+      - run
+    container_name: docker_daemon
+    restart: on-failure
+    env_file:
+      - .env
+    volumes: # Make docker client accessible so we can launch containers using host docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/io_manager_storage:/tmp/io_manager_storage
+    networks:
+      - dockernetwork
+    depends_on:
+      postgres:
+        condition: service_healthy
+      docker_user_code:
+        condition: service_started
+
+
+volumes:
+  pgadmin_data:
+
+networks:
+  dockernetwork:
+    driver: bridge
+    name: docker_network
