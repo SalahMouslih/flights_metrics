@@ -1,0 +1,47 @@
+# Git
+.git
+.gitignore
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Python virtual environment
+venv
+.venv
+
+# Local config
+.env
+.env.*
+
+# Docker files
+docker-compose.override.yml
+docker-compose.*.yml
+
+# Logs
+*.log
+
+# Build artifacts
+dist
+build
+
+# Jupyter
+.ipynb_checkpoints
+
+# Dagster storage
+io_manager_storage/
+tmp/
+dagster_home/
+dagster_logs/
+
+# Volumes and databases
+volumes/
+db/
+pgadmin_data/
+metabase.db/
+.pgadmin/
