@@ -12,11 +12,10 @@ build/
 # Environment files
 .env
 .env.*
+pg.env
 
 # Docker
 *.log
-docker-compose.override.yml
-docker-compose.*.yml
 
 # Local volumes and storage
 volumes/
@@ -44,7 +43,6 @@ venv/
 Thumbs.db
 
 # DAGSTER
-dagster.yaml
 dagster_instance/
 dagster_home/
 dagster_logs/
