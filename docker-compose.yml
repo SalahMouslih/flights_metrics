@@ -4,7 +4,7 @@ services:
     container_name: local_postgres
     restart: always
     env_file:
-      - pg.env
+      - .env
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     networks:
