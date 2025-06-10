@@ -2,7 +2,6 @@
 
 This project implements a production-grade data pipeline for collecting, processing, and analyzing flight and weather data using the Medallion architecture pattern. The pipeline is orchestrated with Dagster, containerized with Docker, and designed for incremental, reliable data processing and business intelligence.
 
----
 
 ## Project Structure Overview
 
@@ -17,7 +16,7 @@ This project implements a production-grade data pipeline for collecting, process
 - `docs/`  
   Documentation on project overview, architecture, data glossary, and maintenance guidelines.
 
----
+
 
 ## Key Features
 
@@ -27,7 +26,7 @@ This project implements a production-grade data pipeline for collecting, process
 - Configurable environments via YAML files
 - Containerized for easy deployment and local development
 
----
+
 
 ## Getting Started
 
@@ -48,15 +47,29 @@ docker-compose up --build
 ```
 Access Dagster UI at http://localhost:3000 to trigger jobs and monitor pipelines.
 
-Access Metabase (BI dashboards) at http://localhost:4000. 
 
-**Login credentials (if required):**
-- Username: `admin@admin.com`
-- Password: `metabase123`
+## Accessing the Metabase Dashboard
 
-### Further Documentation
-Detailed pipeline architecture and orchestration: flights_pipeline/README.md
+A public dashboard showcasing flight metrics and insights is available here:
 
-Testing approach and instructions: flights_pipeline_tests/README.md
+🔗 [View the Dashboard in Metabase](http://0.0.0.0:4000/public/dashboard/07b50882-d1c2-4902-827e-5558661dd73c)
 
-General documentation and maintenance: see docs/ folder
+ Metabase is preloaded and runs on port `4000` in the Docker Compose stack.
+
+Default login (if needed):
+> - **Email:** `admin@admin.com`
+> - **Password:** `metabase123`
+
+The dashboard includes interactive reports such as:
+- Flight delays by airline, airport, and weekday
+- On-time performance trends
+- Weather-related disruptions
+- Daily weather summaries
+- Completed vs. cancelled flight comparisons
+
+## Further Documentation
+Detailed pipeline architecture and orchestration: `flights_pipeline/README.md`
+
+Testing approach and instructions: `flights_pipeline_tests/README.md`
+
+General documentation and maintenance: see ``docs/`` folder
