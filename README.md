@@ -1,47 +1,62 @@
-# flights_pipeline
+# Flight Weather Metrics Pipeline
 
-This is a [Dagster](https://dagster.io/) project scaffolded with [`dagster project scaffold`](https://docs.dagster.io/guides/build/projects/creating-a-new-project).
+This project implements a production-grade data pipeline for collecting, processing, and analyzing flight and weather data using the Medallion architecture pattern. The pipeline is orchestrated with Dagster, containerized with Docker, and designed for incremental, reliable data processing and business intelligence.
 
-## Getting started
+---
 
-First, install your Dagster code location as a Python package. By using the --editable flag, pip will install your Python package in ["editable mode"](https://pip.pypa.io/en/latest/topics/local-project-installs/#editable-installs) so that as you develop, local code changes will automatically apply.
+## Project Structure Overview
 
-```bash
-pip install -e ".[dev]"
+- `flights_pipeline/`  
+  Core pipeline implementation, including data assets, configuration, jobs, resources, and utilities.  
+  See [flights_pipeline/README.md](flights_pipeline/README.md) for architecture details and code organization.
+
+- `flights_pipeline_tests/`  
+  Automated tests for pipeline assets and API clients using pytest.  
+  See [flights_pipeline_tests/README.md](flights_pipeline_tests/README.md) for testing strategy.
+
+- `docs/`  
+  Documentation on project overview, architecture, data glossary, and maintenance guidelines.
+
+---
+
+## Key Features
+
+- Modular ETL pipeline following Raw → Silver → Gold layers
+- Dagster-based orchestration
+- Data quality checks embedded in pipeline steps
+- Configurable environments via YAML files
+- Containerized for easy deployment and local development
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Docker and Docker Compose installed locally
+
+### Running Locally with Docker Compose
+
+1. Clone the repository and navigate to the `flight_pipeline` folder.
+
+2. Create the `.env` file based on the provided `.env.example` with your PostgreSQL credentials.
+
+3. Build and start the services:
+
 ```
-
-Then, start the Dagster UI web server:
-
-```bash
-dagster dev
+docker-compose up --build 
 ```
+Access Dagster UI at http://localhost:3000 to trigger jobs and monitor pipelines.
 
-Open http://localhost:3000 with your browser to see the project.
+Access Metabase (BI dashboards) at http://localhost:4000. 
 
-You can start writing assets in `flights_pipeline/assets.py`. The assets are automatically loaded into the Dagster code location as you define them.
+**Login credentials (if required):**
+- Username: `admin@admin.com`
+- Password: `metabase123`
 
-## Development
+### Further Documentation
+Detailed pipeline architecture and orchestration: flights_pipeline/README.md
 
-### Adding new Python dependencies
+Testing approach and instructions: flights_pipeline_tests/README.md
 
-You can specify new Python dependencies in `setup.py`.
-
-### Unit testing
-
-Tests are in the `flights_pipeline_tests` directory and you can run tests using `pytest`:
-
-```bash
-pytest flights_pipeline_tests
-```
-
-### Schedules and sensors
-
-If you want to enable Dagster [Schedules](https://docs.dagster.io/guides/automate/schedules/) or [Sensors](https://docs.dagster.io/guides/automate/sensors/) for your jobs, the [Dagster Daemon](https://docs.dagster.io/guides/deploy/execution/dagster-daemon) process must be running. This is done automatically when you run `dagster dev`.
-
-Once your Dagster Daemon is running, you can start turning on schedules and sensors for your jobs.
-
-## Deploy on Dagster+
-
-The easiest way to deploy your Dagster project is to use Dagster+.
-
-Check out the [Dagster+ documentation](https://docs.dagster.io/dagster-plus/) to learn more.
+General documentation and maintenance: see docs/ folder
