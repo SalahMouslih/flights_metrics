@@ -47,6 +47,8 @@ docker-compose up --build
 ```
 Access Dagster UI at http://localhost:3000 to trigger jobs and monitor pipelines.
 
+  For further usage details and Dagster specifications, see the documentation at [docs/dagster.md](./docs/dagster.md).
+
 
 ## Accessing the Metabase Dashboard
 
