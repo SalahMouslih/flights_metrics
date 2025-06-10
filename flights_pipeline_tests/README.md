@@ -22,6 +22,14 @@ Asset dependency correctness and partial rerun scenarios
 - API client response handling
 ## Running Tests
 
+## Running Tests
+
+Before running the tests, make sure you have installed the required Python dependencies listed in `requirements.txt`:
+
+```
+pip install -r requirements.txt
+```
+
 To run unit tests in this folder, execute the following command from the project root:
 
 ```
