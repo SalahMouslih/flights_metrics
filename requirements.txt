@@ -1,7 +1,9 @@
 dagster==1.10.19
 pandas==2.3.0
-psycopg2==2.9.10
-psycopg2_binary==2.9.5
+psycopg2_binary
+pyaml_env==1.2.2
+pytest==7.2.0
+python-dotenv==1.1.0
 PyYAML==6.0.2
 requests==2.32.3
 requests_cache==1.2.1
